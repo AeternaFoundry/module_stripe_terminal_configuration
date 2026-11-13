@@ -186,5 +186,13 @@ EOT
       type = string
     }))
   }))
+  validation {
+    condition = alltrue([
+      for k, v in var.terminal_configurations : (
+        v.wifi == null || (contains(["enterprise_eap_peap", "enterprise_eap_tls", "personal_psk"], v.wifi.type))
+      )
+    ])
+    error_message = "must be one of: \"enterprise_eap_peap\", \"enterprise_eap_tls\", \"personal_psk\""
+  }
 }
 
